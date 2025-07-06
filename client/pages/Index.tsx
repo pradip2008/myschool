@@ -651,6 +651,7 @@ export default function Index() {
               size="lg"
               variant="outline"
               className="text-lg px-8 bg-transparent border-primary-foreground text-primary-foreground hover:bg-primary-foreground hover:text-primary"
+              onClick={() => setIsContactOpen(true)}
             >
               Contact Support
             </Button>
