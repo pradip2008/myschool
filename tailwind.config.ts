@@ -57,6 +57,26 @@ export default {
           border: "hsl(var(--sidebar-border))",
           ring: "hsl(var(--sidebar-ring))",
         },
+        // School-themed colors
+        school: {
+          50: "hsl(199 100% 98%)",
+          100: "hsl(199 100% 94%)",
+          200: "hsl(199 100% 87%)",
+          300: "hsl(199 100% 75%)",
+          400: "hsl(199 100% 60%)",
+          500: "hsl(199 100% 45%)",
+          600: "hsl(199 100% 35%)",
+          700: "hsl(199 100% 25%)",
+          800: "hsl(199 100% 18%)",
+          900: "hsl(199 100% 12%)",
+          950: "hsl(199 100% 7%)",
+        },
+        success: {
+          50: "hsl(120 60% 97%)",
+          100: "hsl(120 60% 90%)",
+          500: "hsl(120 60% 50%)",
+          600: "hsl(120 60% 40%)",
+        },
       },
       borderRadius: {
         lg: "var(--radius)",
