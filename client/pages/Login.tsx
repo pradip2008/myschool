@@ -17,8 +17,15 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import { GraduationCap, Users, Shield, BookOpen } from "lucide-react";
+import {
+  GraduationCap,
+  Users,
+  Shield,
+  BookOpen,
+  AlertCircle,
+} from "lucide-react";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
+import { authenticateUser } from "@/lib/auth";
 
 export default function Login() {
   const [searchParams] = useSearchParams();
@@ -29,29 +36,50 @@ export default function Login() {
     password: "",
   });
   const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState("");
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
+    setError("");
 
-    // Simulate API call
-    setTimeout(() => {
-      setIsLoading(false);
-      // Mock authentication - redirect based on user type
-      switch (formData.userType) {
-        case "student":
-          navigate("/student/dashboard");
-          break;
-        case "teacher":
-          navigate("/teacher/dashboard");
-          break;
-        case "admin":
-          navigate("/admin/dashboard");
-          break;
-        default:
-          navigate("/student/dashboard");
+    try {
+      const result = await authenticateUser(
+        formData.userType,
+        formData.identifier,
+        formData.password,
+      );
+
+      if (result.success && result.user) {
+        // Store user info in localStorage (in real app, use secure session)
+        localStorage.setItem("user", JSON.stringify(result.user));
+
+        // Redirect based on user type
+        switch (result.user.role) {
+          case "student":
+            if (result.user.mustChangePassword) {
+              navigate("/student/change-password");
+            } else {
+              navigate("/student/dashboard");
+            }
+            break;
+          case "teacher":
+            navigate("/teacher/dashboard");
+            break;
+          case "admin":
+            navigate("/admin/dashboard");
+            break;
+          default:
+            navigate("/student/dashboard");
+        }
+      } else {
+        setError(result.error || "Login failed");
       }
-    }, 1000);
+    } catch (err) {
+      setError("Something went wrong. Please try again.");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const getRoleIcon = (role: string) => {
@@ -105,13 +133,26 @@ export default function Login() {
           </CardHeader>
           <CardContent>
             <form onSubmit={handleLogin} className="space-y-6">
+              {error && (
+                <Alert variant="destructive">
+                  <AlertCircle className="h-4 w-4" />
+                  <AlertDescription>{error}</AlertDescription>
+                </Alert>
+              )}
+
               <div className="space-y-2">
                 <Label htmlFor="userType">User Type</Label>
                 <Select
                   value={formData.userType}
-                  onValueChange={(value) =>
-                    setFormData({ ...formData, userType: value })
-                  }
+                  onValueChange={(value) => {
+                    setFormData({
+                      ...formData,
+                      userType: value,
+                      identifier: "",
+                      password: "",
+                    });
+                    setError("");
+                  }}
                 >
                   <SelectTrigger>
                     <SelectValue />
@@ -142,15 +183,15 @@ export default function Login() {
               <div className="space-y-2">
                 <Label htmlFor="identifier">
                   {formData.userType === "student"
-                    ? "Student ID / Aadhaar"
+                    ? "Email (Username)"
                     : "Email / Employee ID"}
                 </Label>
                 <Input
                   id="identifier"
-                  type="text"
+                  type="email"
                   placeholder={
                     formData.userType === "student"
-                      ? "Enter your Student ID or Aadhaar number"
+                      ? "Enter your school email address"
                       : "Enter your email or employee ID"
                   }
                   value={formData.identifier}
@@ -159,6 +200,11 @@ export default function Login() {
                   }
                   required
                 />
+                {formData.userType === "student" && (
+                  <p className="text-xs text-muted-foreground">
+                    Use the email address provided by your school administrator
+                  </p>
+                )}
               </div>
 
               <div className="space-y-2">
@@ -190,8 +236,10 @@ export default function Login() {
               {formData.userType === "student" && (
                 <Alert>
                   <AlertDescription>
-                    <strong>Demo credentials:</strong> Use any Student ID and
-                    password "student123" to explore the student dashboard.
+                    <strong>Demo Student:</strong> Email:
+                    "rahul.sharma@student.school.com" Password:
+                    "rahul.sharma123" (Note: Admin must create your account
+                    first)
                   </AlertDescription>
                 </Alert>
               )}
@@ -199,8 +247,8 @@ export default function Login() {
               {formData.userType === "teacher" && (
                 <Alert>
                   <AlertDescription>
-                    <strong>Demo credentials:</strong> Use any email and
-                    password "teacher123" to explore the teacher dashboard.
+                    <strong>Demo Teacher:</strong> Email: "teacher@school.com"
+                    Password: "teacher123"
                   </AlertDescription>
                 </Alert>
               )}
@@ -208,8 +256,9 @@ export default function Login() {
               {formData.userType === "admin" && (
                 <Alert>
                   <AlertDescription>
-                    <strong>Demo credentials:</strong> Use any email and
-                    password "admin123" to explore the admin dashboard.
+                    <strong>Demo Admin:</strong> Email: "admin@school.com"
+                    Password: "admin123" (Create student accounts from admin
+                    panel)
                   </AlertDescription>
                 </Alert>
               )}
