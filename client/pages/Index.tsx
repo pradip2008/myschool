@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -8,6 +9,14 @@ import {
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import {
   BookOpen,
   Users,
   Shield,
@@ -16,10 +25,21 @@ import {
   BarChart3,
   GraduationCap,
   Globe,
+  Mail,
+  Phone,
+  MapPin,
+  Award,
+  Star,
+  Calendar,
+  CheckCircle,
 } from "lucide-react";
 import { Link } from "react-router-dom";
 
 export default function Index() {
+  const [isAboutOpen, setIsAboutOpen] = useState(false);
+  const [isContactOpen, setIsContactOpen] = useState(false);
+  const [isDemoOpen, setIsDemoOpen] = useState(false);
+
   return (
     <div className="min-h-screen bg-gradient-to-b from-background to-secondary/20">
       {/* Header */}
@@ -38,12 +58,189 @@ export default function Index() {
               </div>
             </div>
             <div className="flex items-center space-x-3">
-              <Button variant="ghost" size="sm">
-                About
-              </Button>
-              <Button variant="ghost" size="sm">
-                Contact
-              </Button>
+              <Dialog open={isAboutOpen} onOpenChange={setIsAboutOpen}>
+                <DialogTrigger asChild>
+                  <Button variant="ghost" size="sm">
+                    About
+                  </Button>
+                </DialogTrigger>
+                <DialogContent className="max-w-2xl">
+                  <DialogHeader>
+                    <DialogTitle className="flex items-center space-x-2">
+                      <GraduationCap className="h-6 w-6 text-primary" />
+                      <span>About EduPortal</span>
+                    </DialogTitle>
+                    <DialogDescription>
+                      Learn more about our comprehensive school management
+                      platform
+                    </DialogDescription>
+                  </DialogHeader>
+                  <div className="space-y-6">
+                    <div>
+                      <h3 className="font-semibold text-lg mb-3">
+                        Our Mission
+                      </h3>
+                      <p className="text-muted-foreground">
+                        EduPortal is designed to revolutionize education
+                        management by providing a secure, efficient, and
+                        user-friendly platform that connects students, teachers,
+                        and administrators in one seamless digital ecosystem.
+                      </p>
+                    </div>
+
+                    <div className="grid md:grid-cols-2 gap-4">
+                      <Card className="p-4">
+                        <div className="flex items-center space-x-3 mb-2">
+                          <Award className="h-5 w-5 text-primary" />
+                          <h4 className="font-semibold">Founded</h4>
+                        </div>
+                        <p className="text-sm text-muted-foreground">
+                          2024 - Built for modern education needs
+                        </p>
+                      </Card>
+
+                      <Card className="p-4">
+                        <div className="flex items-center space-x-3 mb-2">
+                          <Users className="h-5 w-5 text-success-600" />
+                          <h4 className="font-semibold">Users Served</h4>
+                        </div>
+                        <p className="text-sm text-muted-foreground">
+                          10,000+ Students across 50+ Schools
+                        </p>
+                      </Card>
+
+                      <Card className="p-4">
+                        <div className="flex items-center space-x-3 mb-2">
+                          <Shield className="h-5 w-5 text-school-600" />
+                          <h4 className="font-semibold">Security</h4>
+                        </div>
+                        <p className="text-sm text-muted-foreground">
+                          Enterprise-grade security & privacy
+                        </p>
+                      </Card>
+
+                      <Card className="p-4">
+                        <div className="flex items-center space-x-3 mb-2">
+                          <Star className="h-5 w-5 text-yellow-500" />
+                          <h4 className="font-semibold">Rating</h4>
+                        </div>
+                        <p className="text-sm text-muted-foreground">
+                          4.9/5 stars from educators
+                        </p>
+                      </Card>
+                    </div>
+
+                    <div>
+                      <h3 className="font-semibold text-lg mb-3">
+                        Key Benefits
+                      </h3>
+                      <div className="space-y-2">
+                        <div className="flex items-center space-x-2">
+                          <CheckCircle className="h-4 w-4 text-success-600" />
+                          <span className="text-sm">
+                            Streamlined study material distribution
+                          </span>
+                        </div>
+                        <div className="flex items-center space-x-2">
+                          <CheckCircle className="h-4 w-4 text-success-600" />
+                          <span className="text-sm">
+                            Real-time progress tracking
+                          </span>
+                        </div>
+                        <div className="flex items-center space-x-2">
+                          <CheckCircle className="h-4 w-4 text-success-600" />
+                          <span className="text-sm">
+                            Advanced admin controls
+                          </span>
+                        </div>
+                        <div className="flex items-center space-x-2">
+                          <CheckCircle className="h-4 w-4 text-success-600" />
+                          <span className="text-sm">
+                            Mobile-responsive design
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </DialogContent>
+              </Dialog>
+
+              <Dialog open={isContactOpen} onOpenChange={setIsContactOpen}>
+                <DialogTrigger asChild>
+                  <Button variant="ghost" size="sm">
+                    Contact
+                  </Button>
+                </DialogTrigger>
+                <DialogContent className="max-w-lg">
+                  <DialogHeader>
+                    <DialogTitle className="flex items-center space-x-2">
+                      <Mail className="h-6 w-6 text-primary" />
+                      <span>Contact Us</span>
+                    </DialogTitle>
+                    <DialogDescription>
+                      Get in touch with our support team
+                    </DialogDescription>
+                  </DialogHeader>
+                  <div className="space-y-6">
+                    <div className="space-y-4">
+                      <div className="flex items-center space-x-3 p-3 bg-primary/5 rounded-lg">
+                        <Mail className="h-5 w-5 text-primary" />
+                        <div>
+                          <p className="font-medium">Email Support</p>
+                          <p className="text-sm text-muted-foreground">
+                            support@eduportal.com
+                          </p>
+                        </div>
+                      </div>
+
+                      <div className="flex items-center space-x-3 p-3 bg-success-50 rounded-lg">
+                        <Phone className="h-5 w-5 text-success-600" />
+                        <div>
+                          <p className="font-medium">Phone Support</p>
+                          <p className="text-sm text-muted-foreground">
+                            +91 9876543210
+                          </p>
+                        </div>
+                      </div>
+
+                      <div className="flex items-center space-x-3 p-3 bg-school-50 rounded-lg">
+                        <MapPin className="h-5 w-5 text-school-600" />
+                        <div>
+                          <p className="font-medium">Office Address</p>
+                          <p className="text-sm text-muted-foreground">
+                            123 Education Hub, Tech City
+                            <br />
+                            Mumbai, Maharashtra 400001
+                          </p>
+                        </div>
+                      </div>
+
+                      <div className="flex items-center space-x-3 p-3 bg-accent rounded-lg">
+                        <Clock className="h-5 w-5 text-accent-foreground" />
+                        <div>
+                          <p className="font-medium">Support Hours</p>
+                          <p className="text-sm text-muted-foreground">
+                            Mon-Fri: 9:00 AM - 6:00 PM
+                            <br />
+                            Sat: 10:00 AM - 4:00 PM
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="text-center p-4 bg-muted rounded-lg">
+                      <p className="text-sm text-muted-foreground">
+                        <strong>For School Partnerships:</strong>
+                        <br />
+                        partnerships@eduportal.com
+                        <br />
+                        +91 9123456789
+                      </p>
+                    </div>
+                  </div>
+                </DialogContent>
+              </Dialog>
+
               <Button asChild size="sm">
                 <Link to="/login">Login</Link>
               </Button>
@@ -72,10 +269,184 @@ export default function Index() {
               <Button size="lg" className="text-lg px-8" asChild>
                 <Link to="/login">Get Started</Link>
               </Button>
-              <Button variant="outline" size="lg" className="text-lg px-8">
-                <Globe className="w-5 h-5 mr-2" />
-                View Demo
-              </Button>
+              <Dialog open={isDemoOpen} onOpenChange={setIsDemoOpen}>
+                <DialogTrigger asChild>
+                  <Button variant="outline" size="lg" className="text-lg px-8">
+                    <Globe className="w-5 h-5 mr-2" />
+                    View Demo
+                  </Button>
+                </DialogTrigger>
+                <DialogContent className="max-w-4xl max-h-[80vh] overflow-y-auto">
+                  <DialogHeader>
+                    <DialogTitle className="flex items-center space-x-2">
+                      <Globe className="h-6 w-6 text-primary" />
+                      <span>EduPortal Demo</span>
+                    </DialogTitle>
+                    <DialogDescription>
+                      Explore the features and capabilities of our platform
+                    </DialogDescription>
+                  </DialogHeader>
+                  <div className="space-y-6">
+                    <div className="grid md:grid-cols-3 gap-4">
+                      <Card
+                        className="p-4 hover:shadow-md transition-shadow cursor-pointer"
+                        onClick={() => {
+                          setIsDemoOpen(false);
+                          setTimeout(
+                            () => window.open("/login?role=student", "_blank"),
+                            100,
+                          );
+                        }}
+                      >
+                        <div className="text-center">
+                          <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-3">
+                            <BookOpen className="h-6 w-6 text-primary" />
+                          </div>
+                          <h3 className="font-semibold mb-2">
+                            Student Dashboard
+                          </h3>
+                          <p className="text-sm text-muted-foreground">
+                            Access study materials, view progress, download
+                            resources
+                          </p>
+                          <Button variant="outline" size="sm" className="mt-3">
+                            Try Student Demo
+                          </Button>
+                        </div>
+                      </Card>
+
+                      <Card
+                        className="p-4 hover:shadow-md transition-shadow cursor-pointer"
+                        onClick={() => {
+                          setIsDemoOpen(false);
+                          setTimeout(
+                            () => window.open("/login?role=teacher", "_blank"),
+                            100,
+                          );
+                        }}
+                      >
+                        <div className="text-center">
+                          <div className="w-12 h-12 bg-success-500/10 rounded-full flex items-center justify-center mx-auto mb-3">
+                            <GraduationCap className="h-6 w-6 text-success-600" />
+                          </div>
+                          <h3 className="font-semibold mb-2">Teacher Portal</h3>
+                          <p className="text-sm text-muted-foreground">
+                            Upload materials, manage classes, track student
+                            activity
+                          </p>
+                          <Button variant="outline" size="sm" className="mt-3">
+                            Try Teacher Demo
+                          </Button>
+                        </div>
+                      </Card>
+
+                      <Card
+                        className="p-4 hover:shadow-md transition-shadow cursor-pointer"
+                        onClick={() => {
+                          setIsDemoOpen(false);
+                          setTimeout(
+                            () => window.open("/login?role=admin", "_blank"),
+                            100,
+                          );
+                        }}
+                      >
+                        <div className="text-center">
+                          <div className="w-12 h-12 bg-school-500/10 rounded-full flex items-center justify-center mx-auto mb-3">
+                            <Shield className="h-6 w-6 text-school-600" />
+                          </div>
+                          <h3 className="font-semibold mb-2">Admin Panel</h3>
+                          <p className="text-sm text-muted-foreground">
+                            Manage accounts, view analytics, control system
+                            settings
+                          </p>
+                          <Button variant="outline" size="sm" className="mt-3">
+                            Try Admin Demo
+                          </Button>
+                        </div>
+                      </Card>
+                    </div>
+
+                    <div>
+                      <h3 className="font-semibold text-lg mb-4">
+                        Demo Credentials
+                      </h3>
+                      <div className="grid md:grid-cols-3 gap-4">
+                        <div className="p-4 bg-primary/5 rounded-lg">
+                          <h4 className="font-medium text-primary mb-2">
+                            Student Login
+                          </h4>
+                          <div className="space-y-1 text-sm">
+                            <p>
+                              <strong>Email:</strong>{" "}
+                              rahul.sharma@student.school.com
+                            </p>
+                            <p>
+                              <strong>Password:</strong> rahul.sharma123
+                            </p>
+                          </div>
+                        </div>
+
+                        <div className="p-4 bg-success-50 rounded-lg">
+                          <h4 className="font-medium text-success-600 mb-2">
+                            Teacher Login
+                          </h4>
+                          <div className="space-y-1 text-sm">
+                            <p>
+                              <strong>Email:</strong> teacher@school.com
+                            </p>
+                            <p>
+                              <strong>Password:</strong> teacher123
+                            </p>
+                          </div>
+                        </div>
+
+                        <div className="p-4 bg-school-50 rounded-lg">
+                          <h4 className="font-medium text-school-600 mb-2">
+                            Admin Login
+                          </h4>
+                          <div className="space-y-1 text-sm">
+                            <p>
+                              <strong>Email:</strong> admin@school.com
+                            </p>
+                            <p>
+                              <strong>Password:</strong> admin123
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div>
+                      <h3 className="font-semibold text-lg mb-4">
+                        Key Features to Explore
+                      </h3>
+                      <div className="grid md:grid-cols-2 gap-4">
+                        <div>
+                          <h4 className="font-medium mb-2">📚 For Students</h4>
+                          <ul className="text-sm text-muted-foreground space-y-1">
+                            <li>• Browse class-wise study materials</li>
+                            <li>• Download PDFs and documents</li>
+                            <li>• View announcements and updates</li>
+                            <li>• Track learning progress</li>
+                          </ul>
+                        </div>
+
+                        <div>
+                          <h4 className="font-medium mb-2">
+                            🛡️ For Administrators
+                          </h4>
+                          <ul className="text-sm text-muted-foreground space-y-1">
+                            <li>• Create and manage student accounts</li>
+                            <li>• Monitor system usage and activity</li>
+                            <li>• Reset passwords and permissions</li>
+                            <li>• View detailed analytics</li>
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </DialogContent>
+              </Dialog>
             </div>
           </div>
         </div>
