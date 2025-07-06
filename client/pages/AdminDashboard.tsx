@@ -55,6 +55,8 @@ import {
   GraduationCap,
   Settings,
   LogOut,
+  BookOpen,
+  Calendar,
 } from "lucide-react";
 import { Link } from "react-router-dom";
 
@@ -236,80 +238,241 @@ export default function AdminDashboard() {
       </header>
 
       <div className="container mx-auto px-4 py-8">
-        {/* Welcome Section */}
+        {/* School Overview Section */}
         <div className="mb-8">
-          <h1 className="text-3xl font-bold mb-2">Admin Dashboard 🛡️</h1>
-          <p className="text-muted-foreground">
-            Manage student accounts, monitor access, and control system
-            settings.
-          </p>
+          <div className="bg-gradient-to-r from-primary to-school-600 rounded-xl p-6 text-primary-foreground mb-6">
+            <div className="flex items-center justify-between">
+              <div>
+                <h1 className="text-3xl font-bold mb-2">Admin Dashboard 🛡️</h1>
+                <p className="text-primary-foreground/90 text-lg">
+                  EduPortal Management System
+                </p>
+                <p className="text-primary-foreground/70 text-sm mt-1">
+                  Complete control over student accounts and system access
+                </p>
+              </div>
+              <div className="text-right">
+                <div className="bg-white/20 rounded-lg p-3">
+                  <p className="text-2xl font-bold">
+                    {new Date().toLocaleDateString("en-IN")}
+                  </p>
+                  <p className="text-sm text-primary-foreground/80">
+                    Today's Date
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* School Basic Information */}
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+            <Card className="border-l-4 border-l-primary">
+              <CardContent className="p-6">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <h3 className="font-semibold text-lg">School Name</h3>
+                    <p className="text-2xl font-bold text-primary">
+                      ABC High School
+                    </p>
+                    <p className="text-sm text-muted-foreground">
+                      Established 1995
+                    </p>
+                  </div>
+                  <GraduationCap className="h-12 w-12 text-primary/20" />
+                </div>
+              </CardContent>
+            </Card>
+
+            <Card className="border-l-4 border-l-success-500">
+              <CardContent className="p-6">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <h3 className="font-semibold text-lg">Classes Available</h3>
+                    <p className="text-2xl font-bold text-success-600">
+                      10th - 12th
+                    </p>
+                    <p className="text-sm text-muted-foreground">
+                      6 Sections Total
+                    </p>
+                  </div>
+                  <BookOpen className="h-12 w-12 text-success-500/20" />
+                </div>
+              </CardContent>
+            </Card>
+
+            <Card className="border-l-4 border-l-school-500">
+              <CardContent className="p-6">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <h3 className="font-semibold text-lg">Academic Year</h3>
+                    <p className="text-2xl font-bold text-school-600">
+                      2024-25
+                    </p>
+                    <p className="text-sm text-muted-foreground">
+                      Current Session
+                    </p>
+                  </div>
+                  <Calendar className="h-12 w-12 text-school-500/20" />
+                </div>
+              </CardContent>
+            </Card>
+          </div>
         </div>
 
         {/* Stats Cards */}
-        <div className="grid md:grid-cols-4 gap-4 mb-8">
-          <Card>
-            <CardContent className="p-6">
-              <div className="flex items-center space-x-3">
-                <div className="p-2 bg-primary/10 rounded-lg">
-                  <Users className="h-6 w-6 text-primary" />
+        <div className="mb-8">
+          <h2 className="text-xl font-semibold mb-4">Account Statistics</h2>
+          <div className="grid md:grid-cols-4 gap-4">
+            <Card className="hover:shadow-md transition-shadow">
+              <CardContent className="p-6">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center space-x-3">
+                    <div className="p-3 bg-primary/10 rounded-xl">
+                      <Users className="h-7 w-7 text-primary" />
+                    </div>
+                    <div>
+                      <p className="text-3xl font-bold text-primary">
+                        {students.length}
+                      </p>
+                      <p className="text-sm font-medium text-muted-foreground">
+                        Total Students
+                      </p>
+                    </div>
+                  </div>
+                  <div className="text-right">
+                    <Badge variant="outline" className="text-xs">
+                      All Time
+                    </Badge>
+                  </div>
                 </div>
-                <div>
-                  <p className="text-2xl font-bold">{students.length}</p>
-                  <p className="text-sm text-muted-foreground">
-                    Total Students
-                  </p>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
+              </CardContent>
+            </Card>
 
-          <Card>
-            <CardContent className="p-6">
-              <div className="flex items-center space-x-3">
-                <div className="p-2 bg-success-500/10 rounded-lg">
-                  <UserCheck className="h-6 w-6 text-success-600" />
+            <Card className="hover:shadow-md transition-shadow">
+              <CardContent className="p-6">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center space-x-3">
+                    <div className="p-3 bg-success-500/10 rounded-xl">
+                      <UserCheck className="h-7 w-7 text-success-600" />
+                    </div>
+                    <div>
+                      <p className="text-3xl font-bold text-success-600">
+                        {students.filter((s) => s.status === "active").length}
+                      </p>
+                      <p className="text-sm font-medium text-muted-foreground">
+                        Active Accounts
+                      </p>
+                    </div>
+                  </div>
+                  <div className="text-right">
+                    <Badge variant="default" className="text-xs bg-success-500">
+                      {Math.round(
+                        (students.filter((s) => s.status === "active").length /
+                          students.length) *
+                          100,
+                      )}
+                      %
+                    </Badge>
+                  </div>
                 </div>
-                <div>
-                  <p className="text-2xl font-bold">
-                    {students.filter((s) => s.status === "active").length}
-                  </p>
-                  <p className="text-sm text-muted-foreground">
-                    Active Accounts
-                  </p>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
+              </CardContent>
+            </Card>
 
-          <Card>
-            <CardContent className="p-6">
-              <div className="flex items-center space-x-3">
-                <div className="p-2 bg-destructive/10 rounded-lg">
-                  <UserX className="h-6 w-6 text-destructive" />
+            <Card className="hover:shadow-md transition-shadow">
+              <CardContent className="p-6">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center space-x-3">
+                    <div className="p-3 bg-destructive/10 rounded-xl">
+                      <UserX className="h-7 w-7 text-destructive" />
+                    </div>
+                    <div>
+                      <p className="text-3xl font-bold text-destructive">
+                        {students.filter((s) => s.status === "inactive").length}
+                      </p>
+                      <p className="text-sm font-medium text-muted-foreground">
+                        Inactive Accounts
+                      </p>
+                    </div>
+                  </div>
+                  <div className="text-right">
+                    <Badge variant="destructive" className="text-xs">
+                      Disabled
+                    </Badge>
+                  </div>
                 </div>
-                <div>
-                  <p className="text-2xl font-bold">
-                    {students.filter((s) => s.status === "inactive").length}
-                  </p>
-                  <p className="text-sm text-muted-foreground">
-                    Inactive Accounts
-                  </p>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
+              </CardContent>
+            </Card>
 
+            <Card className="hover:shadow-md transition-shadow">
+              <CardContent className="p-6">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center space-x-3">
+                    <div className="p-3 bg-school-500/10 rounded-xl">
+                      <Shield className="h-7 w-7 text-school-600" />
+                    </div>
+                    <div>
+                      <p className="text-3xl font-bold text-school-600">
+                        {students.filter((s) => s.lastLogin !== "Never").length}
+                      </p>
+                      <p className="text-sm font-medium text-muted-foreground">
+                        Ever Logged In
+                      </p>
+                    </div>
+                  </div>
+                  <div className="text-right">
+                    <Badge variant="outline" className="text-xs">
+                      Usage
+                    </Badge>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+
+        {/* Recent Activity */}
+        <div className="mb-8">
+          <h2 className="text-xl font-semibold mb-4">Recent Activity</h2>
           <Card>
             <CardContent className="p-6">
-              <div className="flex items-center space-x-3">
-                <div className="p-2 bg-school-500/10 rounded-lg">
-                  <Shield className="h-6 w-6 text-school-600" />
+              <div className="space-y-4">
+                <div className="flex items-center space-x-3 p-3 bg-success-50 rounded-lg border-l-4 border-l-success-500">
+                  <UserCheck className="h-5 w-5 text-success-600" />
+                  <div className="flex-1">
+                    <p className="font-medium">New student account created</p>
+                    <p className="text-sm text-muted-foreground">
+                      Rahul Sharma added to Class 10-A
+                    </p>
+                  </div>
+                  <span className="text-xs text-muted-foreground">
+                    2 hours ago
+                  </span>
                 </div>
-                <div>
-                  <p className="text-2xl font-bold">
-                    {students.filter((s) => s.lastLogin !== "Never").length}
-                  </p>
-                  <p className="text-sm text-muted-foreground">Logged In</p>
+
+                <div className="flex items-center space-x-3 p-3 bg-blue-50 rounded-lg border-l-4 border-l-blue-500">
+                  <Shield className="h-5 w-5 text-blue-600" />
+                  <div className="flex-1">
+                    <p className="font-medium">Password reset requested</p>
+                    <p className="text-sm text-muted-foreground">
+                      Priya Patel - Class 10-A
+                    </p>
+                  </div>
+                  <span className="text-xs text-muted-foreground">
+                    4 hours ago
+                  </span>
+                </div>
+
+                <div className="flex items-center space-x-3 p-3 bg-primary/5 rounded-lg border-l-4 border-l-primary">
+                  <Users className="h-5 w-5 text-primary" />
+                  <div className="flex-1">
+                    <p className="font-medium">Bulk login activity detected</p>
+                    <p className="text-sm text-muted-foreground">
+                      15 students logged in during class hours
+                    </p>
+                  </div>
+                  <span className="text-xs text-muted-foreground">
+                    6 hours ago
+                  </span>
                 </div>
               </div>
             </CardContent>
